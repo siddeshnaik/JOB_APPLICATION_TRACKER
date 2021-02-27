@@ -1,4 +1,30 @@
 <?php
+
+    // connecting to the data base
+    $conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
+
+    //check connection
+    if(!$conn){
+      echo 'connection error: '.mysqli_connect_error();
+  }
+
+    //write a query for all email and password
+    $sql = 'SELECT email_id, password_info FROM login_data';
+        
+    // make query and get result
+    $result = mysqli_query($conn, $sql);
+
+    // fetch the resulting rows as an array
+    $login_data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    
+    //free result from memory
+    mysqli_free_result(($result));
+
+    //close connection
+    // mysqli_close($conn);
+
+
+
     $fullName=$email=$password=$repassword='';
     $errors=array('fullName'=>'', 'email'=>'', 'password'=>'', 'repassword'=>'');
     if(isset($_POST['submit'])){
@@ -22,6 +48,17 @@
             $email=$_POST['email'];
             if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
                 $errors['email']='Email must be a valid email address';
+            }
+            else
+            {
+                foreach($login_data as $checking)
+                {
+                    if($checking['email_id']==$email)
+                    {
+                        $errors['email']='This email already exists';
+                        break;
+                    }
+                }
             }
         }
         
@@ -58,8 +95,25 @@
 
         else{
             //echo 'form is valid';
-            header('Location: index.php');
+    
+            // escape sql chars
+            $fullName = mysqli_real_escape_string($conn, $_POST['fullName']);
+			$email = mysqli_real_escape_string($conn, $_POST['email']);
+			$password = mysqli_real_escape_string($conn, $_POST['password']);
+
+			// create sql
+			$sql = "INSERT INTO login_data(full_name,email_id,password_info) VALUES('$fullName','$email','$password')";
+
+			// save to db and check
+			if(mysqli_query($conn, $sql)){
+				// success
+				header('Location: index.php');
+			} else {
+				echo 'query error: '. mysqli_error($conn);
+			}
+
         }
+
     
     }
 

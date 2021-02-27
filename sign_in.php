@@ -175,7 +175,7 @@
 
                     <div class="form-group">
                     <label class="label control-label">Password</label>
-                    <input type="text" class="form-control" name="password" placeholder="Enter your password" value="<?php echo htmlspecialchars($password) ?>">
+                    <input type="password" class="form-control" name="password" placeholder="Enter your password" value="<?php echo htmlspecialchars($password) ?>">
                     <div style="color: red; font-size: 10px;"><?php echo $errors['password']; ?></div>
                     </div>
 
