@@ -58,6 +58,7 @@
 
         else{
             //echo 'form is valid';
+            header('Location: index.php');
         }
     
     }
@@ -127,25 +128,25 @@
                     <div class="form-group">
                     <label class="label control-label">Full Name</label>
                     <input type="text" class="form-control" name="fullName" placeholder="Enter your full name" value='<?php echo htmlspecialchars($fullName)?>'>
-                    <div style="color: red;"><?php echo $errors['fullName']; ?></div>
+                    <div style="color: red; font-size: 10px;"><?php echo $errors['fullName']; ?></div>
                     </div>
                     
                     <div class="form-group">
                     <label class="label control-label">Email</label>
                     <input type="text" class="form-control" name="email" placeholder="Enter your Email" value='<?php echo htmlspecialchars($email)?>'>
-                    <div style="color: red;"><?php echo $errors['email']; ?></div>
+                    <div style="color: red; font-size: 10px;"><?php echo $errors['email']; ?></div>
                     </div>
 
                     <div class="form-group">
                     <label class="label control-label">Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Enter your password" value='<?php echo htmlspecialchars($password)?>'>
-                    <div style="color: red;"><?php echo $errors['password']; ?></div>
+                    <div style="color: red; font-size: 10px;"><?php echo $errors['password']; ?></div>
                     </div>
 
                     <div class="form-group">
                     <label class="label control-label">Repeat password</label>
                     <input type="password" class="form-control" name="repassword" placeholder="Enter your password again" value='<?php echo htmlspecialchars($repassword)?>'>
-                    <div style="color: red;"><?php echo $errors['repassword']; ?></div>
+                    <div style="color: red; font-size: 10px;"><?php echo $errors['repassword']; ?></div>
                     </div>
 
                     <!-- <button class="btn btn-info btn-block text-white" style="font-family:sans-serif;" type='submit' value="submit"><a href="#" style="color: white ; font-size: 15px;">Sign up</a></button> -->
