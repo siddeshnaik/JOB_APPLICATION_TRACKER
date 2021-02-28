@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     // connecting to the data base
     $conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
@@ -69,7 +70,7 @@
         else{
             $password=$_POST['password'];
             if(!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/', $password)){
-                $errors['password'] = 'Minimum eight characters, at least one letter and one number';
+                $errors['password'] = 'Minimum eight characters, at least one Captial letter, one number and no special character';
             }
         }
 
@@ -80,7 +81,7 @@
         else{
             $repassword=$_POST['repassword'];
             if(!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/", $repassword)){
-                $errors['repassword'] = 'Minimum eight characters, at least one letter and one number';
+                $errors['repassword'] = 'Minimum eight characters, at least one Captial letter, one number and no special character';
             }
 
             elseif($_POST['password']!=$_POST['repassword']){
@@ -95,7 +96,8 @@
 
         else{
             //echo 'form is valid';
-    
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
             // escape sql chars
             $fullName = mysqli_real_escape_string($conn, $_POST['fullName']);
 			$email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -107,7 +109,8 @@
 			// save to db and check
 			if(mysqli_query($conn, $sql)){
 				// success
-				header('Location: index.php');
+
+				header('Location: job_page1.php');
 			} else {
 				echo 'query error: '. mysqli_error($conn);
 			}

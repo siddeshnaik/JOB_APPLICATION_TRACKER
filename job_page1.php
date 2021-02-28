@@ -1,67 +1,3 @@
-<?php
-
-$Output="";
-// connecting to the data base
-$conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
-
-//check connection
-if(!$conn){
-    echo 'connection error: '.mysqli_connect_error();
-}
-
-// writing a query to fecth data
-// $sql = 'SELECT * FROM job_discription' // all the data
-$sql = 'SELECT Title, Publish_On, Until  FROM job_discription ORDER BY Publish_On' ;
-
-// making query and getting result
-$result = mysqli_query($conn, $sql);
-
-// fetching the resulting rows as an array
-$my_data_trail = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-//print_r($my_data_trail);
-
-// freeing reslut from memory
-mysqli_free_result($result);
-
-
-
-
-// to get the count of number of application
-// $value = count($my_data_trail );
-// echo $value;
-
-if (isset($_POST['Search_Bar'])){
-
-  $searchq=$_POST['Search_Bar'];
-  $searchq = preg_replace("#[^0-9a-z]#i","",$searchq);
-
-  //$query=mysqli_query(,$searchq) ;
-  $query=mysqli_query($conn,"SELECT * FROM job_discription WHERE Title LIKE '%$searchq%'") or die("Could not Search");
-  $count = mysqli_num_rows($query);
-
-  
-
-  if ($count==0){
-
-    $Output="There was no search result";
-
-  }else{
-
-    while($row=mysqli_fetch_array($query)){
-      $fname=$row['Title'];
-      $Output = $fname;
-
-    }
-  }
-
-
-}
-// close connection
-mysqli_close($conn);
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,9 +36,8 @@ mysqli_close($conn);
                                   <li class="nav-item px-1">
                                     <a class="nav-link" href="#">Applications</a>
                                   </li>
-                                  <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Calendar</a>
-                                  </li>
+                                  
+                                  <!-- CHANGES MADE ON 25TH FEB- 1 am Calender removed-->
                                   <li class="nav-item px-1">
                                     <a class="nav-link" href="#"><button class="btn btn-info btn-sm text-white border border-white">Log out</button></a>
                                   </li>
@@ -116,22 +51,22 @@ mysqli_close($conn);
 
 
           <div class="search-container">
-            <form action="job_page1.php" method='POST'>
-              <input type="text" placeholder="Search for a job post" name="Search_Bar">
-              <input type="submit" value="Search" class="fa fa-search" style="font-family:sans-serif;"/>
+            <form action="action_page">
+              <input type="text" placeholder="Search for a job post" name="search">
+              <button type="submit"><i class="fa fa-search"></i></button>
             </div>
             </form>
-
-          <?php echo $Output ?>
-
 <!--Table consisting of job titles and the applications received -->
 
 
-
+            <!-- CHANGES MADE ON 25TH FEB- 1 am  applied css-->
             <table class="table">
               <p style="background-color: white;"> </p> 
-              <h1 style="background-color: rgb(37, 175, 218); color: white;font-size: 18px;padding-left: 15px;padding-top:10px;padding-bottom:15px;display:inline-flexbox;"><i class="fa fa-location-arrow" aria-hidden="true"></i>JOB TITLE<button type="button" class="btn btn-primary btn-sm" style="float: right;background-color: rgb(103, 60, 182);font-weight: bold;"><i class="fa fa-plus" aria-hidden="true"></i> ADD A JOB POST</button></h1>
+              <h1 style="background-color: rgb(37, 175, 218); color: white;font-size: 18px;padding-left: 15px;padding-top:10px;padding-bottom:15px;display:inline-flexbox;"><i class="fa fa-location-arrow" aria-hidden="true"></i>JOB TITLE<a href="job_listing.php"><button type="button" class="btn btn-primary btn-sm" style="float: right;background-color: rgb(103, 60, 182);font-weight: bold;"><i class="fa fa-plus" aria-hidden="true"></i> ADD A JOB POST</button></a></h1>
               <thead>
+
+                 <!--CHANGES MADE ON 25TH FEB- 1 am- div tag added for the header row -->
+                <div>
                 <tr>
                   <th scope="col">TITLE</th>
                   <th scope="col"></th>
@@ -139,30 +74,19 @@ mysqli_close($conn);
                   <th scope="col">Publish</th>
                   <th scope="col">Unpublish</th>
                   <th scope="col"></th>
-                  <th scope="col"></th>
                 </tr>
+                </div>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row"></th>
-                  <div>
-                  <?php foreach($my_data_trail as $output_data1){?>
-                  <div>
-                  <p> <?php echo htmlspecialchars($output_data1['Title']) ?> </p>
-                  <p><?php echo htmlspecialchars($output_data1['Publish_On']) ?></p>
-                  <p><?php echo htmlspecialchars($output_data1['Until']) ?></p>
-                  </div>
-                  <?php } ?>
-                  </div>
-                  
-                
 
-                  
-                   <td><input type="number" class="form-control" id="inputNumber" style="block-size: 20px;width:5%;height:25px;float: right;background-color: #9fff51;"></td>
-                  <td>Applications</td>
-                  <td></td>
-                  <td></td>
-                  <td><button type="button" class="btn btn-primary btn-sm" style="padding-left: 15px;padding-right: 15px;">Edit</button></td>
+                 <!--CHANGES MADE ON 25TH FEB- 1 am -->
+                <tr>
+                  <th scope="row" style="font-weight: 600;">Developer</th>
+                  <td><pre style="padding-top: 3px;font-weight: 600;">10</pre></td>
+                  <td style="font-weight: 600;">Applications</td>
+                  <td style="font-weight: 600;">25/02/2021</td>
+                  <td style="font-weight: 600;">10/03/2021</td>
+                   <!--CHANGES MADE ON 25TH FEB- 2 pm edit button removed-->
                   <td><button type="button" class="btn btn-secondary btn-sm">Delete</button></td>
                 </tr>
                 

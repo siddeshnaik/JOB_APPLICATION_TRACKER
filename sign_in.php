@@ -100,7 +100,7 @@
     {
       //echo 'form is valid'    
       if(!(($_SESSION['email'] ==="") and ($_SESSION['password'] ===""))){
-        header('Location: sign_up.php');  
+        header('Location: job_page1.php');  
       }
       
     }
@@ -204,8 +204,6 @@
                <div class="col-md-2">
                  <div class="col-md-6">
                   <div class="container">
-                    <h3>TrackEasy.com</h3>
-                    <h6>keep it secure with us ugdgaiisajjkcjgh</h6>
                   </div>
                 </div>
                </div>

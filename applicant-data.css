@@ -1,0 +1,22 @@
+.leftside{
+    height: auto;
+    
+}
+body{
+    background-color: rgb(231, 241, 241);
+}
+/* .rightside{
+    height: 20vh;
+    width: 90%;
+    
+} */
+
+.box-info{
+    border: 1px grey solid;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.app-action{
+    float: right;
+}
