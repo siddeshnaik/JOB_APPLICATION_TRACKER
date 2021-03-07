@@ -1,3 +1,40 @@
+<?php
+
+    $conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
+
+    //check connection
+    if(!$conn){
+    echo 'connection error: '.mysqli_connect_error();
+    }
+
+    $current_login_email_id = '';
+    //$current_login_email_id = 'yooshi@thenetninja.co.uk';
+
+
+    session_start();
+    $current_login_email_id = $_SESSION['email'];
+    
+    if ($current_login_email_id=='')
+    {
+      header('Location: sign_in.php');
+    }
+    
+    
+    $sql ="SELECT Title, Publish_on, Until, login_email, Department FROM job_discription WHERE login_email= '$current_login_email_id' ";
+
+    $result = mysqli_query($conn,$sql);
+
+    $job_discription_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    //print_r($job_discription_info);
+
+    mysqli_free_result($result);
+
+    
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,8 +106,8 @@
                 <div>
                 <tr>
                   <th scope="col">TITLE</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
+                  <th scope="col">Count</th>
+                  <th scope="col">Department</th>
                   <th scope="col">Publish</th>
                   <th scope="col">Unpublish</th>
                   <th scope="col"></th>
@@ -80,16 +117,17 @@
               <tbody>
 
                  <!--CHANGES MADE ON 25TH FEB- 1 am -->
+                 <?php foreach($job_discription_info as $info){ ?>
                 <tr>
-                  <th scope="row" style="font-weight: 600;">Developer</th>
+                  <th scope="row" style="font-weight: 600;"><a href='Applicants_list.php?Title=<?php $passinfo=$info['Title'].','.$info['Department'] ;echo $passinfo; ?>'  style="color: black;"><?php echo htmlspecialchars($info['Title']) ?></a></th>
                   <td><pre style="padding-top: 3px;font-weight: 600;">10</pre></td>
-                  <td style="font-weight: 600;">Applications</td>
-                  <td style="font-weight: 600;">25/02/2021</td>
-                  <td style="font-weight: 600;">10/03/2021</td>
+                  <td style="font-weight: 600;"><?php echo htmlspecialchars($info['Department'])?></td>
+                  <td style="font-weight: 600;"><?php $newDate1 = date("d-m-Y", strtotime($info['Publish_on'])); echo htmlspecialchars($newDate1); ?></td>
+                  <td style="font-weight: 600;"><?php $newDate2 = date("d-m-Y", strtotime($info['Until'])); echo htmlspecialchars($newDate2);?></td>
                    <!--CHANGES MADE ON 25TH FEB- 2 pm edit button removed-->
-                  <td><button type="button" class="btn btn-secondary btn-sm">Delete</button></td>
+                  <!-- <td><button type="button" class="btn btn-secondary btn-sm">Delete</button></td> -->
                 </tr>
-                
+                <?php } ?>
               </tbody>
             </table>
        

@@ -3,10 +3,17 @@
     $application_stages='Applied ,First Interview, Second interview ,Final Interview, Job Offer ';
     $errors=array('title'=>'','job_description'=>'','application_stages'=>'','position_identifier'=>'','employment_status'=>'','department'=>'','city'=>'','state'=>'','country'=>'','pubdate'=>'','duedate'=>'');
 
+    
+    $login_email = '';
+
     session_start();
     $login_email=$_SESSION['email'];
     //echo $login_email;
     
+    if($login_email=='')
+    {
+      header('Location: sign_in.php');
+    }
     
     //connecting to data base
     $conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
@@ -162,7 +169,15 @@
         }
         else
         {
-            $duedate = $_POST['duedate'];
+          $duedate = $_POST['duedate'];
+          $pubdate_check=strtotime($_POST['pubdate']);
+          $duedate_check=strtotime($_POST['duedate']);
+          
+          if($pubdate_check >= $duedate_check)
+          {
+              $errors['duedate']='Invalid due or publish date';
+          }
+            
         }
 
 

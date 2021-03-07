@@ -1,5 +1,54 @@
 <?php
 
+  //connecting to data base
+  $conn = mysqli_connect('localhost', 'job_application', 'job1234', 'job_application_tracker');
+
+  if(!$conn)
+  {
+    echo 'Connection error:' . mysqli_connect_error(); 
+  }
+
+  $current_login_email_id = '';
+  //$current_login_email_id = 'yooshi@thenetninja.co.uk';
+
+
+  session_start();
+  $current_login_email_id = $_SESSION['email'];
+  
+  if ($current_login_email_id=='')
+  {
+    header('Location: sign_in.php');
+  }
+
+  if(isset($_GET['Title']))
+  {
+    //print_r(explode(',',$_GET['Title'])[1]);
+    $job_title = mysqli_real_escape_string($conn, explode(',',$_GET['Title'])[0]);
+    //echo $job_title.'<br>';
+
+    $job_department = mysqli_real_escape_string($conn, explode(',',$_GET['Title'])[1]);
+    //echo $job_department.'<br>';
+
+    $sql="SELECT Department, Applicant_Name, Rating, Current_Status, info_Data, Upcoming_Schedule  FROM  job_applications WHERE Job_Title = '$job_title' AND  login_email= '$current_login_email_id' AND Department= '$job_department'  ";
+
+    $sql2 = "SELECT Title, Position_Identifier, Employment_Status, Department, State_Name, Publish_on, Until FROM job_discription WHERE Title= '$job_title' AND login_email= '$current_login_email_id' AND Department= '$job_department'  ";
+  }
+
+  $results = mysqli_query($conn,$sql);
+
+  
+
+  $all_applicant = mysqli_fetch_all($results, MYSQLI_ASSOC);
+
+  mysqli_free_result($results);
+
+  $results2 = mysqli_query($conn,$sql2);
+  $description_info = mysqli_fetch_all($results2, MYSQLI_ASSOC);
+
+  //print_r($all_applicant);
+
+  //print_r($description_info);
+
 ?>
 
 
@@ -64,16 +113,18 @@
 
 
         <!--CHANGES MADE ON 25TH FEB-4 pm -->
-        
+        <?php foreach($description_info as $description_info1) { ?>
       <span></span><br>
-      <span><br></span>
-        <span>Status: </span><span style="background-color: chartreuse;">Active</span><br><br>
-        <span>Department Type: </span><span>Finance</span><br>
-        <span>Employment Type: </span><span>Full-time</span><br>
-        <span>Created: </span><span>25/02/2021</span><br>
-        <span>Job Location: </span><span>Goa</span><br>
-        <span style="float:inline-end;">Closes in: </span><span>10/03/2021</span>
-
+      <h5><strong><span>Job Position: </span><span><?php echo htmlspecialchars($description_info1['Title']);?></span></strong></h5>
+        <span>Department Type: </span><span><?php echo htmlspecialchars($description_info1['Department']);?></span><br>
+        <span>Employment Type: </span><span><?php echo htmlspecialchars($description_info1['Employment_Status']);?></span><br>
+        <?php $today_date=date("y-m-d"); $until_date=strtotime($description_info1['Until']); if($today_date > $until_date){ ?>
+        <span>Status: </span><span style="background-color: chartreuse;"><?php echo htmlspecialchars('Active');}else{?></span>
+        <span>Status: </span><span style="background-color: #FF3131;"><?php echo htmlspecialchars('Closed');}?></span><br>
+        <span>Created: </span><span><?php $publish_date = date("d-m-Y", strtotime($description_info1['Publish_on'])); echo htmlspecialchars($publish_date);?></span><br>
+        <span>Job Location: </span><span><?php echo htmlspecialchars($description_info1['State_Name']);?></span><br>
+        <span style="float:inline-end;">Closes in: </span><span><?php $until_date = date("d-m-Y", strtotime($description_info1['Until'])); echo htmlspecialchars($until_date);?></span>
+          <?php } ?>
 
 
 
@@ -108,29 +159,28 @@
 
       <!--CHANGES MADE ON 25TH FEB-4 pm -->
 
+      <?php foreach($all_applicant as $applicant) {?>
       <tr style="font-weight: 600;">  
-        <th scope="row">Smith George</th>
-        <td> <span class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></span>  
+        <th scope="row"><?php echo htmlspecialchars($applicant['Applicant_Name']); ?></th>
+        <td> 
+        <!-- <span class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></span>  
           <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>  
           <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>  
-          <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>  
+          <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>   -->
+         
           <!-- To display unchecked star rating icons -->  
-          <i class = "fa fa-star unchecked" style="color: rgb(223, 223, 209);"></i>  </td>
-        <td>First Interview</td>
-        <td><i class="fa fa-info-circle fa-lg" aria-hidden="true"  data-toggle="popover"  data-content="Resume Viewed : 25/2/2021 <br />
-          
-                  First interview : 15/3/2021 <br />
-                  Second Interview : No schedule yet <br />
-                  Joining date: None <br />
-          
-          
-          "  data-html="true"></i></td>
+
+          <!-- <i class = "fa fa-star unchecked" style="color: rgb(223, 223, 209);"></i>   --> 
+          <?php echo htmlspecialchars($applicant['Rating']); ?>
+          </td>
+        <td><?php echo htmlspecialchars($applicant['Current_Status']); ?></td>
+        <td><i class="fa fa-info-circle fa-lg" aria-hidden="true"  data-toggle="popover"  data-content="<?php foreach(explode(",",$applicant['info_Data']) as $data_info){ echo htmlspecialchars($data_info).'<br>';} ?>"  data-html="true"></i></td>
         <td>
-          15/3/2021, 2.00pm
+        <?php echo htmlspecialchars($applicant['Upcoming_Schedule']); ?>
       </td>
         
       </tr>
-      
+      <?php } ?>
     </tbody>
   </table>
 
