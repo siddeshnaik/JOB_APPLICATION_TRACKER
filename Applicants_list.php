@@ -29,7 +29,7 @@
     $job_department = mysqli_real_escape_string($conn, explode(',',$_GET['Title'])[1]);
     //echo $job_department.'<br>';
 
-    $sql="SELECT Department, Applicant_Name, Rating, Current_Status, info_Data, Upcoming_Schedule  FROM  job_applications WHERE Job_Title = '$job_title' AND  login_email= '$current_login_email_id' AND Department= '$job_department'  ";
+    $sql="SELECT Department, Applicant_Name, Rating, Current_Status, info_Data, Upcoming_Schedule, Job_Title, Application_Number  FROM  job_applications WHERE Job_Title = '$job_title' AND  login_email= '$current_login_email_id' AND Department= '$job_department'  ";
 
     $sql2 = "SELECT Title, Position_Identifier, Employment_Status, Department, State_Name, Publish_on, Until FROM job_discription WHERE Title= '$job_title' AND login_email= '$current_login_email_id' AND Department= '$job_department'  ";
   }
@@ -84,16 +84,16 @@
                     <div class="collapse navbar-collapse text-center" id="navbarText">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active px-1">
-                              <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a>
+                              <a class="nav-link" href="job_page1.php">Jobs <span class="sr-only"></span></a>
                             </li>
                             <li class="nav-item px-1">
-                              <a class="nav-link" href="#">Applications</a>
+                              <!-- <a class="nav-link" href="#">Applications</a> -->
                             </li>
                             
                             <!-- CHANGES MADE ON 25TH FEB- 10 pm Calender removed-->
 
                             <li class="nav-item px-1">
-                              <a class="nav-link" href="#"><button class="btn btn-info btn-sm text-white border border-white">Log out</button></a>
+                              <a class="nav-link" href="log_out.php"><button class="btn btn-info btn-sm text-white border border-white">Log out</button></a>
                             </li>
                           </ul>
                     </div>
@@ -118,9 +118,21 @@
       <h5><strong><span>Job Position: </span><span><?php echo htmlspecialchars($description_info1['Title']);?></span></strong></h5>
         <span>Department Type: </span><span><?php echo htmlspecialchars($description_info1['Department']);?></span><br>
         <span>Employment Type: </span><span><?php echo htmlspecialchars($description_info1['Employment_Status']);?></span><br>
-        <?php $today_date=date("y-m-d"); $until_date=strtotime($description_info1['Until']); if($today_date > $until_date){ ?>
-        <span>Status: </span><span style="background-color: chartreuse;"><?php echo htmlspecialchars('Active');}else{?></span>
-        <span>Status: </span><span style="background-color: #FF3131;"><?php echo htmlspecialchars('Closed');}?></span><br>
+        <?php 
+        // $today_date=date("y-m-d"); 
+        // $until_date=strtotime($description_info1['Until']); 
+        // if($today_date > $until_date){ 
+        ?>
+        <!-- <span>Status: </span><span style="background-color: chartreuse;">
+          <?php 
+            // echo htmlspecialchars('Active');}else{
+          ?>
+        </span> -->
+        <!-- <span>Status: </span><span style="background-color: #FF3131;">
+          <?php 
+            // echo htmlspecialchars('Closed');}
+          ?>
+        </span> -->
         <span>Created: </span><span><?php $publish_date = date("d-m-Y", strtotime($description_info1['Publish_on'])); echo htmlspecialchars($publish_date);?></span><br>
         <span>Job Location: </span><span><?php echo htmlspecialchars($description_info1['State_Name']);?></span><br>
         <span style="float:inline-end;">Closes in: </span><span><?php $until_date = date("d-m-Y", strtotime($description_info1['Until'])); echo htmlspecialchars($until_date);?></span>
@@ -131,14 +143,14 @@
 </div>
 
 
-<div class="search-container">
+<!-- <div class="search-container">
   <form action="action_page">
     <input type="text" placeholder="Search for a job post" name="search">
     <button type="submit"><i class="fa fa-search"></i></button>
 
     <input type="text" placeholder="Search for an employee" name="search">
     <button type="submit"><i class="fa fa-search"></i></button>
-  </div>
+  </div> -->
 
 
 
@@ -148,11 +160,11 @@
     <thead>
       <tr>
         <th scope="col">NAME</th>
-        <th scope="col">RATING</th>
+        <!--  -->
         <th scope="col">STATUS</th>
         <th scope="col">INFO</th>
         <th scope="col">UPCOMING SCHEDULE</th>
-        
+        <!-- <th scope="col">DELETE</th> -->
       </tr>
     </thead>
     <tbody>
@@ -161,8 +173,8 @@
 
       <?php foreach($all_applicant as $applicant) {?>
       <tr style="font-weight: 600;">  
-        <th scope="row"><?php echo htmlspecialchars($applicant['Applicant_Name']); ?></th>
-        <td> 
+        <th scope="row"><a href='applicant-data.php?Title=<?php $passinfo = $applicant['Application_Number']; echo $passinfo; ?>' style="color: black;"><?php echo htmlspecialchars($applicant['Applicant_Name']); ?></a></th>
+        <!-- <td>  -->
         <!-- <span class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></span>  
           <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>  
           <i class = "fa fa-star checked" style="color: rgb(223, 223, 209);"></i>  
@@ -171,8 +183,8 @@
           <!-- To display unchecked star rating icons -->  
 
           <!-- <i class = "fa fa-star unchecked" style="color: rgb(223, 223, 209);"></i>   --> 
-          <?php echo htmlspecialchars($applicant['Rating']); ?>
-          </td>
+          <!-- <?php //echo htmlspecialchars($applicant['Rating']); ?> -->
+          <!-- </td> -->
         <td><?php echo htmlspecialchars($applicant['Current_Status']); ?></td>
         <td><i class="fa fa-info-circle fa-lg" aria-hidden="true"  data-toggle="popover"  data-content="<?php foreach(explode(",",$applicant['info_Data']) as $data_info){ echo htmlspecialchars($data_info).'<br>';} ?>"  data-html="true"></i></td>
         <td>

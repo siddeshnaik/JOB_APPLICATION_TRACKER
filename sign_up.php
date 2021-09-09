@@ -155,16 +155,16 @@
                       <div class="collapse navbar-collapse text-center" id="navbarText">
                           <ul class="navbar-nav ml-auto">
                               <li class="nav-item active px-1">
-                                <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a>
+                                <!-- <a class="nav-link" href="job_listing.php">Jobs <span class="sr-only">(current)</span></a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#">Applications</a>
+                                <!-- <a class="nav-link" href="#">Applications</a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#">Calendar</a>
+                                <!-- <a class="nav-link" href="#">Calendar</a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#"><button class="btn btn-info btn-sm text-white border border-white">Sign In</button></a>
+                                <a class="nav-link" href="sign_in.php"><button class="btn btn-info btn-sm text-white border border-white">Sign In</button></a>
                               </li>
                             </ul>
                       </div>
@@ -212,7 +212,7 @@
                         <input type="submit" name='submit' value="signup" class='btn btn-info btn-block text-white' style="font-family:sans-serif;" >
                     </div>
                     
-                    <h5 class="text-center" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;">Already have an account?<a href="#">&nbsp; Click here!</h5>
+                    <h5 class="text-center" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;">Already have an account?<a href="sign_in.php">&nbsp; Click here!</h5>
                 </form>
                     
                </div>

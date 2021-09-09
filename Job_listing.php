@@ -1,6 +1,6 @@
 <?php
-    $title=$job_description=$position_identifier=$employment_status=$department=$city=$state=$country=$pubdate=$duedate='';
-    $application_stages='Applied ,First Interview, Second interview ,Final Interview, Job Offer ';
+    $title=$application_stages=$job_description=$position_identifier=$employment_status=$department=$city=$state=$country=$pubdate=$duedate='';
+    //$application_stages='First Interview, Second interview ,Final Interview, Job Offer ';
     $errors=array('title'=>'','job_description'=>'','application_stages'=>'','position_identifier'=>'','employment_status'=>'','department'=>'','city'=>'','state'=>'','country'=>'','pubdate'=>'','duedate'=>'');
 
     
@@ -8,6 +8,7 @@
 
     session_start();
     $login_email=$_SESSION['email'];
+    $_SESSION['app_num'] = '';
     //echo $login_email;
     
     if($login_email=='')
@@ -69,15 +70,15 @@
         // application stages check
         if(empty($_POST['application_stages']))
         {
-            $application_stages='Applied ,First Interview, Second interview ,Final Interview, Job Offer';
+            //$application_stages='First Interview, Second interview ,Final Interview, Job Offer';
         }
         else
         {
           $application_stages = $_POST['application_stages'];
-          if(!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $application_stages))
-          {
-              $errors['application_stages'] = 'Application stages must be comma seperated';
-          }
+          // if(!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $application_stages))
+          // {
+          //     $errors['application_stages'] = 'Application stages must be comma seperated';
+          // }
         }
 
         // position_identifier
@@ -191,7 +192,8 @@
           $login_email = mysqli_real_escape_string($conn, $_SESSION['email']);
           $title = mysqli_real_escape_string($conn, $_POST['title']); 
           $job_description = mysqli_real_escape_string($conn, $_POST['job_description']);
-          $application_stages = mysqli_real_escape_string($conn, $_POST['application_stages']);
+          $application_stages=$application_stages.','.'REJECTED';
+          $application_stages = mysqli_real_escape_string($conn, $application_stages);
           $position_identifier = mysqli_real_escape_string($conn, $_POST['position_identifier']);
           $employment_status = mysqli_real_escape_string($conn, $_POST['employment_status']);
           $department = mysqli_real_escape_string($conn, $_POST['department']);
@@ -310,7 +312,8 @@
         <!--CHANGES MADE ON 24TH FEB-10 pm -->
         <div class="col-md-10">
           <label for="inputAdd_appstage" class="form-label" style="padding-top: 10px;">Add Application Stages:</label><span style="font-family: monospace ;"> (Separate each stage with a comma) </span>
-          <input type="text" class="form-control" id="inputAdd_appstage" style="height:100px;font-size:14pt;" name='application_stages' placeholder="Enter Application stages by default its Applied ,First Interview, Second interview ,Final Interview, Job Offer " value='<?php echo htmlspecialchars($application_stages)?>'>
+          <input type="text" class="form-control" id="inputAdd_appstage" style="height:100px;font-size:14pt;" name='application_stages' value='<?php echo htmlspecialchars($application_stages)?>'>
+          <!-- placeholder="Enter Application stages by default its First Interview, Second interview ,Final Interview, Job Offer " -->
           <div style="color: red; font-size: 15px;"><?php echo $errors['application_stages']; ?></div>
         </div>
 

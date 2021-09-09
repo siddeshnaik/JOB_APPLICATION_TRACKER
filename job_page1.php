@@ -13,6 +13,7 @@
 
     session_start();
     $current_login_email_id = $_SESSION['email'];
+    $_SESSION['app_num'] = '';
     
     if ($current_login_email_id=='')
     {
@@ -20,7 +21,7 @@
     }
     
     
-    $sql ="SELECT Title, Publish_on, Until, login_email, Department FROM job_discription WHERE login_email= '$current_login_email_id' ";
+    $sql ="SELECT Title, Publish_on, Until, login_email, Department, Position_identifier FROM job_discription WHERE login_email= '$current_login_email_id' ORDER BY Until DESC";
 
     $result = mysqli_query($conn,$sql);
 
@@ -68,15 +69,15 @@
                           <div class="collapse navbar-collapse text-center" id="navbarText">
                               <ul class="navbar-nav ml-auto">
                                   <li class="nav-item active px-1">
-                                    <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="job_page1.php">Jobs <span class="sr-only">(current)</span></a>
                                   </li>
                                   <li class="nav-item px-1">
-                                    <a class="nav-link" href="#">Applications</a>
+                                    <!-- <a class="nav-link" href="#">Applications</a> -->
                                   </li>
                                   
                                   <!-- CHANGES MADE ON 25TH FEB- 1 am Calender removed-->
                                   <li class="nav-item px-1">
-                                    <a class="nav-link" href="#"><button class="btn btn-info btn-sm text-white border border-white">Log out</button></a>
+                                    <a class="nav-link" href="log_out.php"><button class="btn btn-info btn-sm text-white border border-white">Log out</button></a>
                                   </li>
                                 </ul>
                           </div>
@@ -87,12 +88,13 @@
           </div>
 
 
-          <div class="search-container">
+          <!-- <div class="search-container">
             <form action="action_page">
               <input type="text" placeholder="Search for a job post" name="search">
               <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
-            </form>
+              </form>
+            </div> -->
+            
 <!--Table consisting of job titles and the applications received -->
 
 
@@ -106,11 +108,11 @@
                 <div>
                 <tr>
                   <th scope="col">TITLE</th>
-                  <th scope="col">Count</th>
+                  <th scope="col">Position</th>
                   <th scope="col">Department</th>
                   <th scope="col">Publish</th>
                   <th scope="col">Unpublish</th>
-                  <th scope="col"></th>
+                  <th scope="col">Delete Job Post</th>
                 </tr>
                 </div>
               </thead>
@@ -120,12 +122,13 @@
                  <?php foreach($job_discription_info as $info){ ?>
                 <tr>
                   <th scope="row" style="font-weight: 600;"><a href='Applicants_list.php?Title=<?php $passinfo=$info['Title'].','.$info['Department'] ;echo $passinfo; ?>'  style="color: black;"><?php echo htmlspecialchars($info['Title']) ?></a></th>
-                  <td><pre style="padding-top: 3px;font-weight: 600;">10</pre></td>
+                  <!-- <td><pre style="padding-top: 3px;font-weight: 600;">----</pre></td> -->
+                  <td style="font-weight: 600;"><?php echo htmlspecialchars($info['Position_identifier'])?></td>
                   <td style="font-weight: 600;"><?php echo htmlspecialchars($info['Department'])?></td>
                   <td style="font-weight: 600;"><?php $newDate1 = date("d-m-Y", strtotime($info['Publish_on'])); echo htmlspecialchars($newDate1); ?></td>
                   <td style="font-weight: 600;"><?php $newDate2 = date("d-m-Y", strtotime($info['Until'])); echo htmlspecialchars($newDate2);?></td>
                    <!--CHANGES MADE ON 25TH FEB- 2 pm edit button removed-->
-                  <!-- <td><button type="button" class="btn btn-secondary btn-sm">Delete</button></td> -->
+                  <td><button type="button" class="btn btn-secondary btn-sm"><a href='delete.php?Titleout=<?php $passinfo=$info['Title'].','.$info['Department'].','.$info['Position_identifier'].','.$info['Publish_on'].','.$info['Until'] ;echo $passinfo; ?>'  style="color: white;">Delete</a></button></td>
                 </tr>
                 <?php } ?>
               </tbody>

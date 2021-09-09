@@ -140,16 +140,16 @@
                       <div class="collapse navbar-collapse text-center" id="navbarText">
                           <ul class="navbar-nav ml-auto">
                               <li class="nav-item active px-1">
-                                <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a>
+                                <!-- <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#">Applications</a>
+                                <!-- <a class="nav-link" href="#">Applications</a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#">Calendar</a>
+                                <!-- <a class="nav-link" href="#">Calendar</a> -->
                               </li>
                               <li class="nav-item px-1">
-                                <a class="nav-link" href="#"><button class="btn btn-info btn-sm text-white border border-white">Sign In</button></a>
+                                <a class="nav-link" href="sign_up.php"><button class="btn btn-info btn-sm text-white border border-white">Sign Up</button></a>
                               </li>
                             </ul>
                       </div>
@@ -193,10 +193,10 @@
 
                      <button class="btn btn-secondary btn-block text-white" style="font-family:sans-serif;"><a href="#" style="color: white;font-size: 15px;">Sign in with Google</a></button> -->
 
-                     <h5 class="text-right" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;"><a href="forgot_password.html" style="color:black;text-decoration: none;">Forgot password?</h5>
+                     <h5 class="text-right" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;"><a href="forget_password.html" style="color:black;text-decoration: none;">Forgot password?</h5>
                     
                     
-                        <h5 class="text-center" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;">Don't have an account?<a href="sign_up.php">&nbsp; Create one!</h5>
+                        <h5 class="text-center" style="font-size: 10px; font-weight: 800; padding-top: 20px; padding-bottom: 0;">Don't have an account?<a href="sign_up.php">&nbsp; Create one!</a></h5>
                     </form>
 
                 </div>
